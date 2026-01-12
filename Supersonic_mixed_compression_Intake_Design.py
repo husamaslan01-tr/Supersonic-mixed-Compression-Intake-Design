@@ -18,7 +18,7 @@ try:
     if M_design < 1.0:
         print("Error: Mach number must be Supersonic (>1.0).")
         sys.exit()
-    elif M_design < 1.6:
+    elif M_design < 1.4:
         print("\n" + "="*50)
         print(f"  ENGINEERING NOTICE for Mach {M_design}")
         print("This 2-shock design (Mixed Compression) is inefficient for M < 1.4.")
@@ -38,10 +38,9 @@ except ValueError:
 # --- 2. Physics Functions ---
 def get_shock_angle(Mach, theta_deg):
     theta = np.radians(theta_deg)
-    mu = np.arcsin(1/Mach) 
-    start_beta = np.degrees(mu) + 0.1
+
     # Find The Shock Angle (Weak Solution)
-    for beta_deg in np.arange(start_beta, 90, 0.01): 
+    for beta_deg in np.arange(1, 90, 0.01): 
         beta = np.radians(beta_deg)
         num = (Mach**2 * np.sin(beta)**2 - 1)
         den = (Mach**2 * (gamma + np.cos(2*beta)) + 2)
@@ -150,4 +149,5 @@ print(f"2. Max Efficiency:     {max_val:.3f}")
 print(f"3. INTAKE SIZING:      For every 1 meter of height,")
 print(f"                       the ramp must be {best_sizing:.2f} meters long.")
 print("-" * 40)
+
 
